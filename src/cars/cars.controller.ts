@@ -9,6 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
+import { Car } from './interfaces/car.interface';
 
 @Controller('cars')
 export class CarsController {
@@ -20,13 +21,13 @@ export class CarsController {
   }
 
   @Get(':id')
-  getCarById(@Param('id', ParseIntPipe) id: number) {
+  getCarById(@Param('id') id: string) {
     console.log({ id });
     return this.carService.findOneById(id);
   }
 
   @Post()
-  createCar(@Body() body: any) {
+  createCar(@Body() body: Car) {
     return {
       body,
     };

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
-import { CreateCarDto, UpdateCarDto } from './dto';
+import { CreateCarDto, DeleteCarDto, UpdateCarDto } from './dto';
 import { Car } from './interfaces/car.interface';
 
 @Injectable()
@@ -76,5 +76,16 @@ export class CarsService {
     });
 
     return carDB;
+  }
+
+  delete(id: string) {
+    //validation of id
+    this.findOneById(id);
+    // eliminando el obj dentro del array
+    this.cars = this.cars.filter((car) => car.id !== id);
+    return {
+      ok: true,
+      msg: 'Car delete',
+    };
   }
 }

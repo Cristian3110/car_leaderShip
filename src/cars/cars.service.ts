@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CreateCarDto, UpdateCarDto } from './dto';
@@ -32,7 +36,7 @@ export class CarsService {
     const car = this.cars.find((car) => car.id === id);
 
     if (!car) {
-      throw new NotFoundException(`Car with ${id} not found`);
+      throw new NotFoundException(`Car with this id not found`);
     }
     return car;
   }
@@ -42,6 +46,7 @@ export class CarsService {
       id: uuidv4(),
       // brand: createcarDto.brand,
       // model: createcarDto.model,
+      // con el operador spread estoy exparciendo los demás valores
       ...createCarDto,
     };
 
@@ -54,9 +59,17 @@ export class CarsService {
     //Se aplica ésto para seguir el principio DRY (Don't repeat yourself)
     let carDB = this.findOneById(id);
 
+    //validation if sending a Id incorrect
+    if (updateCarDto.id && updateCarDto.id !== id)
+      throw new BadRequestException(`Car Id is Not valid inside body`);
+
     this.cars = this.cars.map((car) => {
       if (car.id === id) {
-        carDB = { ...carDB, ...updateCarDto, id };
+        carDB = {
+          ...carDB,
+          ...updateCarDto,
+          id,
+        };
         return carDB;
       }
       return car; // carro actualizado

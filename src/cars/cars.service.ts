@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
-import { CreateCarDto, DeleteCarDto, UpdateCarDto } from './dto';
+import { CreateCarDto, UpdateCarDto } from './dto';
 import { Car } from './interfaces/car.interface';
 
 @Injectable()

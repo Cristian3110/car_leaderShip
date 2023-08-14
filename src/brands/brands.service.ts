@@ -62,4 +62,8 @@ export class BrandsService {
       resp: 'Brand delete',
     };
   }
+
+  fillBrandsWithSeedData(brands: Brand[]) {
+    this.brands = brands;
+  }
 }
